@@ -2,23 +2,33 @@ import { Component } from "react";
 import "./App.css";
 
 class App extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      name: "Daddy",
+      monsters: [],
     };
   }
+
+  componentDidMount() {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => response.json())
+      .then((json) =>
+        this.setState(() => {
+          return { monsters: json };
+        }),
+      );
+  }
+
   render() {
     return (
       <div className="App">
-        <h1 className="text-3xl text-red-600">Hello {this.state.name}!</h1>
-        <button
-          onClick={() => {
-            this.setState({ name: "Mummy" });
-          }}
-        >
-          Click Me
-        </button>
+        {this.state.monsters.map((monster) => {
+          return (
+            <div key={monster.id}>
+              <h1 className="text-3xl">{monster.name}</h1>
+            </div>
+          );
+        })}
       </div>
     );
   }
