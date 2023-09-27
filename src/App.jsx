@@ -1,65 +1,54 @@
-import { Component } from "react";
-import "./App.css";
+import { Component } from 'react';
+import { CardList } from './components/card-list/CardList.jsx';
+import './App.css';
+import { SearchBox } from './components/search-box/SearchBox';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    console.log("Constructor");
-    this.state = {
-      monsters: [],
-      searchField: "",
-    };
-  }
+    constructor(props) {
+        super(props);
+        this.state = {
+            monsters: [],
+            searchField: '',
+        };
+    }
 
-  componentDidMount() {
-    console.log("ComponentDidMount");
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((response) => response.json())
-      .then((json) =>
+    componentDidMount() {
+        fetch('https://jsonplaceholder.typicode.com/users')
+            .then((response) => response.json())
+            .then((json) =>
+                this.setState(() => {
+                    return { monsters: json };
+                }),
+            );
+    }
+
+    onSearchChange = (e) => {
+        const searchField = e.target.value.toLowerCase();
         this.setState(() => {
-          return { monsters: json };
-        }),
-      );
-  }
+            return { searchField };
+        });
+    };
 
-  render() {
-    console.log("Render");
+    render() {
 
-    const filteredMonsters = this.state.monsters.filter((monster) => {
-      return monster.name.toLowerCase().includes(this.state.searchField);
-    });
-    return (
-      <div className="App">
-        <div className="mb-6">
-          <label
-            className="block mb-2 uppercase font-bold text-xs text-gray-700"
-            htmlFor="search"
-          />
+        const { monsters, searchField } = this.state;
+        const { onSearchChange } = this;
 
-          <input
-            className="border border-gray-400 p-2 w-full rounded-md"
-            type="text"
-            name="search"
-            id="search"
-            placeholder="search monsters"
-            onChange={(e) => {
-              const searchField = e.target.value.toLowerCase();
-              this.setState(() => {
-                return { searchField };
-              });
-            }}
-          />
-        </div>
-        {filteredMonsters.map((monster) => {
-          return (
-            <div key={monster.id}>
-              <h1 className="text-3xl">{monster.name}</h1>
+        const filteredMonsters = monsters.filter((monster) => {
+            return monster.name.toLowerCase().includes(searchField);
+        });
+        return (
+            <div className="App">
+                <div className="search">
+                    <SearchBox onChangeHandler={onSearchChange} name={'search'} id={'search'}
+                               placeholder={'search monsters'}/>
+                </div>
+                <div className="cards">
+                    <CardList monsters={filteredMonsters}/>
+                </div>
             </div>
-          );
-        })}
-      </div>
-    );
-  }
+        );
+    }
 }
 
 export default App;
