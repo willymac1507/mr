@@ -1,11 +1,3 @@
-.card-container {
-    @apply rounded-md p-5 bg-green-200 flex flex-col items-center hover:scale-110 transition-transform duration-300 gap-[10px] mb-5;
-}
-
-.card-name {
-    @apply text-2xl font-semibold;
-}
-
-.card-image {
-    @apply w-1/2;
+.cards {
+    @apply grid grid-cols-3 gap-10;
 }

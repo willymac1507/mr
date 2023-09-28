@@ -6,10 +6,7 @@ body {
     @apply w-screen flex flex-col flex-wrap px-10;
 }
 
-.search {
-    @apply my-10 flex justify-center;
-}
-
-.cards {
-    @apply grid grid-cols-3 gap-10;
+.app-title {
+    font-family: 'Bigelow Rules', cursive;
+    @apply text-9xl text-teal-300 my-7;
 }
